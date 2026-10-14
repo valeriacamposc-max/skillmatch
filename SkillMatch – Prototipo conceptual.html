@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>SkillMatch – Prototipo conceptual</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f4f5fd;--card:#fff;--tx:#14173d;--mu:#6b7094;--bd:#e4e6f5;--pr:#3b34e0;--dk:#1b1f6b;--li:#ece9ff;--lc:#7c6cf0;--ok:#16a37a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1130;--card:#181b45;--tx:#eef0ff;--mu:#a3a8d6;--bd:#2c3070;--pr:#8b82ff;--dk:#c9c5ff;--li:#272a68;--lc:#a99dff}}
+:root[data-theme=dark]{--bg:#0f1130;--card:#181b45;--tx:#eef0ff;--mu:#a3a8d6;--bd:#2c3070;--pr:#8b82ff;--dk:#c9c5ff;--li:#272a68;--lc:#a99dff}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#side{position:fixed;left:0;top:0;bottom:0;width:230px;background:var(--card);border-right:1px solid var(--bd);padding:20px 14px;display:flex;flex-direction:column;gap:4px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;color:var(--dk);margin:0 6px 18px}
+.nav{all:unset;cursor:pointer;padding:10px 12px;border-radius:10px;color:var(--mu);font-weight:600;display:flex;gap:10px}
+.nav:hover{background:var(--li)}.nav.on{background:var(--li);color:var(--pr)}
+main{margin-left:230px;padding:28px 32px 60px;max-width:1100px}
+h1{font-size:26px;margin:0 0 4px;color:var(--dk)}h2{font-size:18px;margin:26px 0 12px;color:var(--dk)}p.sub{color:var(--mu);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px;box-shadow:0 2px 10px rgba(40,40,120,.06)}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.hero{background:linear-gradient(120deg,var(--dk),var(--pr) 60%,var(--lc));color:#fff;border:0}.hero h1{color:#fff;font-size:28px}
+.btn{background:var(--pr);color:#fff;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+:root:not([data-theme=light]) .btn{color:#fff}.btn.alt{background:var(--li);color:var(--pr)}.btn.w{background:#fff;color:var(--dk)}
+.tag{display:inline-block;background:var(--li);color:var(--pr);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;margin:2px 4px 2px 0}
+.tag.ok{background:rgba(22,163,122,.15);color:var(--ok)}.chip{all:unset;cursor:pointer;border:1px solid var(--bd);background:var(--card);border-radius:20px;padding:7px 14px;font-weight:600;margin:0 6px 8px 0}
+.chip.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+.bar{height:9px;background:var(--li);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pr),var(--lc));border-radius:9px;transition:width .4s}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}label{font-weight:600;font-size:13px;color:var(--mu);display:block;margin:12px 0 5px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.sp{justify-content:space-between}.big{font-size:30px;font-weight:800;color:var(--pr)}
+.note{background:var(--li);color:var(--dk);border-radius:12px;padding:10px 14px;font-size:13px;margin:0 0 16px}.back{all:unset;cursor:pointer;color:var(--pr);font-weight:700;margin-bottom:14px;display:inline-block}
+.chk{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--bd);cursor:pointer}.chk input{width:auto}
+.donut{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:var(--pr)}.donut span{background:var(--card);width:56px;height:56px;border-radius:50%;display:grid;place-items:center}
+@media(max-width:800px){#side{top:auto;width:auto;right:0;flex-direction:row;overflow-x:auto;border-right:0;border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+.logo{display:none}.nav{flex-direction:column;align-items:center;font-size:11px;gap:0;padding:6px 10px;white-space:nowrap}main{margin:0;padding:18px 16px 100px}}
+</style></head><body><nav id="side"></nav><main id="app"></main>
+<script>
+const SUBJ=["Comportamiento Organizacional","Reclutamiento y Selección","Capacitación y Desarrollo","Estadística Aplicada","Derecho Laboral","Gestión de Proyectos","Comunicación Organizacional","Liderazgo y Equipos","Remuneraciones y Compensaciones","Metodología de la Investigación"];
+const C={com:["Comunicación efectiva","Expresar ideas con claridad y escuchar activamente.",["Comunicación Organizacional","Comportamiento Organizacional"]],
+eq:["Trabajo en equipo","Colaborar con otros para alcanzar objetivos comunes.",["Liderazgo y Equipos","Gestión de Proyectos"]],
+pc:["Pensamiento crítico","Evaluar información y argumentos antes de decidir.",["Metodología de la Investigación","Derecho Laboral"]],
+org:["Organización y planificación","Ordenar tareas, plazos y recursos.",["Gestión de Proyectos","Capacitación y Desarrollo"]],
+dat:["Análisis de datos","Interpretar cifras para apoyar decisiones.",["Estadística Aplicada","Remuneraciones y Compensaciones","Metodología de la Investigación"]],
+res:["Resolución de problemas","Detectar causas y proponer soluciones viables.",["Derecho Laboral","Reclutamiento y Selección"]],
+gp:["Gestión de personas","Atraer, desarrollar y acompañar a las personas en la organización.",["Reclutamiento y Selección","Comportamiento Organizacional","Capacitación y Desarrollo"]],
+lid:["Liderazgo","Motivar e influir positivamente en un grupo.",["Liderazgo y Equipos","Comportamiento Organizacional"]]};
+const J=[["agp","Analista de Gestión de Personas","Apoya procesos de reclutamiento, bienestar y gestión de información de colaboradores.",["gp","com","org","eq","res"],["Apoyar procesos de reclutamiento y selección","Mantener bases de datos de colaboradores","Colaborar en iniciativas de clima laboral"]],
+["cp","Coordinador/a de Proyectos","Planifica y da seguimiento a proyectos, coordinando equipos y plazos.",["org","lid","eq","com"],["Planificar hitos y recursos","Coordinar equipos y reportar avances","Gestionar riesgos y cambios"]],
+["ad","Analista de Datos","Recopila y analiza datos para responder preguntas del negocio.",["dat","pc","res"],["Limpiar y ordenar datos","Construir reportes e indicadores","Presentar hallazgos"]],
+["acd","Analista de Capacitación y Desarrollo","Diseña y evalúa acciones de formación para equipos de trabajo.",["gp","com","org","pc"],["Levantar necesidades de formación","Organizar y evaluar capacitaciones","Medir el aprendizaje"]],
+["edo","Especialista en Desarrollo Organizacional","Impulsa cambios que mejoran la cultura, el clima y el desempeño.",["gp","lid","pc","com","eq"],["Diagnosticar clima y cultura","Diseñar intervenciones de cambio","Acompañar a líderes"]]];
+const ICON={agp:"👥",cp:"🗂️",ad:"📊",acd:"🎓",edo:"🧭"};
+const S={view:"inicio",name:"Valeria Campos",inst:"Universidad de Santiago de Chile (USACH)",car:"Gestión de Personas",subs:SUBJ.slice(0,8),sel:["gp","com","eq","org","lid"],str:["dat","lid"],done:{},seen:{},det:null,saved:false,prev:"inicio"};
+const $=s=>document.querySelector(s),LV=["Inicial","Intermedio","Avanzado"];
+const lvl=k=>Math.min(2,C[k][2].filter(x=>S.subs.includes(x)).length);
+const match=j=>Math.round(100*j[3].filter(k=>S.sel.includes(k)).length/j[3].length);
+const jobs=()=>J.slice().sort((a,b)=>match(b)-match(a));
+const tags=a=>a.map(k=>`<span class="tag ${S.sel.includes(k)?'ok':''}">${C[k][0]}</span>`).join("");
+function go(v,d){S.prev=S.view;S.view=v;if(d)S.det=d,S.seen[d]=1;render();scrollTo(0,0)}
+function tog(arr,v){const i=S[arr].indexOf(v);i<0?S[arr].push(v):S[arr].splice(i,1);render()}
+const note=`<div class="note">🧪 Prototipo conceptual de SkillMatch: datos, niveles y porcentajes son de demostración, no mediciones reales.</div>`;
+function jobCard(j){const m=match(j);return `<div class="card"><div class="row sp"><span style="font-size:28px">${ICON[j[0]]}</span><span class="tag ok">${m}% coincidencia*</span></div><h3 style="margin:8px 0 4px;color:var(--dk)">${j[1]}</h3><p style="color:var(--mu);margin:0 0 8px;font-size:14px">${j[2]}</p><div>${tags(j[3])}</div><div class="bar" style="margin:10px 0"><i style="width:${m}%"></i></div><button class="btn alt" onclick="go('detalle','${j[0]}')">Ver detalles →</button></div>`}
+const V={
+inicio(){const top=jobs().slice(0,3);return `${note}<div class="card hero"><h1>¡Bienvenido/a a SkillMatch!</h1><p style="font-size:17px;margin:0 0 16px">Descubre todo lo que puedes hacer con lo que aprendes.</p><button class="btn w" onclick="go('competencias')">Explorar mis competencias</button></div>
+<h2>Resumen del perfil</h2><div class="grid"><div class="card"><b>${S.name}</b><br><span style="color:var(--mu)">Estudiante de ${S.car}<br>${S.inst}</span><br><br><button class="btn alt" onclick="go('perfil')">Editar perfil</button></div>
+<div class="card"><div class="row"><div class="donut" style="background:conic-gradient(var(--pr) ${S.sel.length/8*100}%,var(--li) 0)"><span>${S.sel.length}/8</span></div><div><b>Competencias identificadas</b><br><span style="color:var(--mu);font-size:13px">Dato de demostración</span></div></div></div>
+<div class="card"><div class="big">${Object.keys(S.seen).length}/5</div><b>Oportunidades exploradas</b><br><span style="color:var(--mu);font-size:13px">Dato de demostración</span></div></div>
+<h2>Mis mejores coincidencias</h2><div class="grid">${top.map(jobCard).join("")}</div><p style="font-size:12px;color:var(--mu)">*Simulación: % de competencias del perfil ocupacional que tienes seleccionadas. No son vacantes.</p>`},
+perfil(){return `<h1>Mi perfil académico</h1><p class="sub">Completa tus datos o usa los de demostración.</p>${note}<div class="card"><label>Nombre</label><input value="${S.name}" oninput="S.name=this.value">
+<label>Institución</label><select onchange="S.inst=this.value">${["Universidad de Santiago de Chile (USACH)","Universidad de Chile","Pontificia Universidad Católica de Chile","Universidad de Concepción","Universidad Técnica Federico Santa María","Otra institución"].map(x=>`<option ${x==S.inst?'selected':''}>${x}</option>`).join("")}</select>
+<label>Carrera</label><select onchange="S.car=this.value">${["Gestión de Personas","Ingeniería Comercial","Psicología","Ingeniería Civil Industrial","Trabajo Social","Otra carrera"].map(x=>`<option ${x==S.car?'selected':''}>${x}</option>`).join("")}</select>
+<label>Asignaturas cursadas o áreas de interés <small>(ejemplos editables, no es una malla oficial)</small></label><div id="chips">${SUBJ.map(s=>`<button class="chip ${S.subs.includes(s)?'on':''}" onclick="tog('subs','${s}')">${s}</button>`).join("")}</div>
+<div class="row"><input id="ns" placeholder="Agregar otra asignatura o interés" style="flex:1"><button class="btn alt" onclick="addS()">Agregar</button></div><br>
+<button class="btn" onclick="S.saved=true;go('competencias')">Guardar datos de demostración y continuar</button></div>`},
+competencias(){return `<h1>Mis competencias</h1><p class="sub">Selecciona las que te interesan: los resultados se actualizan.</p>${note}<div>${Object.keys(C).map(k=>`<button class="chip ${S.sel.includes(k)?'on':''}" onclick="tog('sel','${k}')">${C[k][0]}</button>`).join("")}</div>
+<div class="grid">${Object.keys(C).map(k=>{const l=lvl(k),on=S.sel.includes(k);return `<div class="card" style="${on?'border-color:var(--pr)':'opacity:.65'}"><b style="color:var(--dk)">${C[k][0]}</b><p style="margin:4px 0;color:var(--mu);font-size:14px">${C[k][1]}</p><div class="bar"><i style="width:${(l+1)*33.3}%"></i></div><small>Nivel ilustrativo: <b>${LV[l]}</b></small><p style="font-size:13px;margin:8px 0 4px"><b>Se relaciona con:</b> ${C[k][2].join(", ")}</p><p style="font-size:13px;margin:0"><b>Cómo fortalecerla:</b> proyecto práctico y ejercicios de ${C[k][0].toLowerCase()}.</p></div>`}).join("")}</div>
+<br><button class="btn" onclick="go('oportunidades')">Ver oportunidades (${S.sel.length} seleccionadas)</button>`},
+oportunidades(){return `<h1>Oportunidades laborales</h1><p class="sub">Perfiles ocupacionales de ejemplo (no son ofertas vigentes) ordenados por coincidencia.</p>${note}${S.sel.length?'':'<p>Selecciona competencias para ver coincidencias.</p>'}<div class="grid">${jobs().map(jobCard).join("")}</div><p style="font-size:12px;color:var(--mu)">*Simulación: competencias coincidentes ÷ competencias del perfil.</p>`},
+detalle(){const j=J.find(x=>x[0]==S.det),m=match(j),has=j[3].filter(k=>S.sel.includes(k)),gap=j[3].filter(k=>!S.sel.includes(k));
+return `<button class="back" onclick="go(S.prev=='detalle'?'oportunidades':S.prev)">← Volver</button>${note}<div class="card"><div class="row sp"><h1>${ICON[j[0]]} ${j[1]}</h1><span class="tag ok">${m}% coincidencia*</span></div><p>${j[2]}</p>
+<h2>Funciones del cargo</h2><ul>${j[4].map(f=>`<li>${f}</li>`).join("")}</ul><h2>Competencias relacionadas</h2>${tags(j[3])}
+<h2>Competencias que podrías fortalecer</h2>${gap.length?gap.map(k=>`<span class="tag">${C[k][0]}</span>`).join(""):'¡Ya seleccionaste todas las competencias de este perfil!'}
+<h2>¿Por qué coincide contigo?</h2><p>${has.length?`Seleccionaste ${has.length} de ${j[3].length} competencias clave (${has.map(k=>C[k][0]).join(", ")}).`:'Aún no seleccionas competencias relacionadas con este perfil.'}</p>
+<button class="btn" onclick="S.str=[...new Set([...S.str,...gap])];go('plan')">Agregar brechas a mi plan</button></div>`},
+plan(){const acts=S.str.flatMap(k=>[`Curso o taller introductorio de ${C[k][0].toLowerCase()} (busca opciones en tu universidad o plataformas abiertas)`,`Proyecto práctico aplicando ${C[k][0].toLowerCase()} en un trabajo de curso`,`Ejercicio de reflexión semanal sobre ${C[k][0].toLowerCase()}`].map((t,i)=>[k+i,t,k])),d=acts.filter(a=>S.done[a[0]]).length,p=acts.length?Math.round(100*d/acts.length):0;
+return `<h1>Mi plan de desarrollo</h1><p class="sub">Elige qué competencias quieres fortalecer y marca tus avances.</p>${note}<div class="card"><b>Progreso general: ${p}%</b> (${d}/${acts.length})<div class="bar" style="margin-top:8px"><i style="width:${p}%"></i></div></div><h2>Competencias a fortalecer</h2>${Object.keys(C).map(k=>`<button class="chip ${S.str.includes(k)?'on':''}" onclick="tog('str','${k}')">${C[k][0]}</button>`).join("")}
+<h2>Acciones sugeridas (ejemplos genéricos)</h2><div class="card">${acts.length?acts.map(a=>`<label class="chk" style="margin:0;color:var(--tx);font-weight:500"><input type="checkbox" ${S.done[a[0]]?'checked':''} onchange="S.done['${a[0]}']=this.checked;render()"><span><span class="tag">${C[a[2]][0]}</span> ${a[1]}</span></label>`).join(""):'Elige al menos una competencia.'}</div>`}};
+function addS(){const v=$("#ns").value.trim();if(v&&!SUBJ.includes(v)){SUBJ.push(v);S.subs.push(v);render()}}
+function reset(){const t=document.documentElement.dataset.theme;Object.assign(S,{view:"inicio",name:"Valeria Campos",inst:"Universidad de Santiago de Chile (USACH)",car:"Gestión de Personas",subs:SUBJ.slice(0,8),sel:["gp","com","eq","org","lid"],str:["dat","lid"],done:{},seen:{},det:null});render()}
+function render(){const v=S.view,N=[["inicio","🏠","Inicio"],["perfil","👤","Mi perfil"],["competencias","🎯","Competencias"],["oportunidades","💼","Oportunidades"],["plan","📈","Mi plan"]];
+$("#side").innerHTML=`<div class="logo"><svg width="30" height="30" viewBox="0 0 30 30"><circle cx="11" cy="15" r="9" fill="none" stroke="#3b34e0" stroke-width="3"/><circle cx="19" cy="15" r="9" fill="none" stroke="#7c6cf0" stroke-width="3"/></svg>SkillMatch</div>`+N.map(n=>`<button class="nav ${v==n[0]||(v=='detalle'&&n[0]=='oportunidades')?'on':''}" onclick="go('${n[0]}')"><span>${n[1]}</span>${n[2]}</button>`).join("")+`<button class="nav" style="margin-top:auto" onclick="reset()"><span>↺</span>Reiniciar demo</button>`;
+$("#app").innerHTML=V[v]()+`<p style="margin-top:36px;font-size:12px;color:var(--mu)">Prototipo conceptual de SkillMatch · Sin datos reales de empleadores, convenios ni IA integrada.</p>`}
+render();
+</script></body></html>
